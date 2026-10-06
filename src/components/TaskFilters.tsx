@@ -4,15 +4,21 @@ const filters = [
   { id: 'done', label: 'Completadas' },
 ] as const
 
-export function TaskFilters() {
+type TaskFiltersProps = {
+  activeFilter: Filter
+  onChangeFilter: (filter: Filter) => void
+}
+
+export function TaskFilters({ activeFilter, onChangeFilter }: TaskFiltersProps) {
   return (
     <div className="filters" role="group" aria-label="Filtrar tareas">
       {filters.map((filter) => (
         <button
           key={filter.id}
           type="button"
-          className={filter.id === 'all' ? 'filter is-active' : 'filter'}
+          className={filter.id === activeFilter ? 'filter is-active' : 'filter'}
           data-filter={filter.id}
+          onClick={() => onChangeFilter(filter.id)}
         >
           {filter.label}
         </button>
@@ -20,3 +26,4 @@ export function TaskFilters() {
     </div>
   )
 }
+import { type Filter } from '../types/TaskAction'
